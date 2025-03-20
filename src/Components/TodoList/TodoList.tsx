@@ -19,7 +19,7 @@ type Action = | { type: "ADD_todo"; payload: string } | { type: "TOGGLE_todo"; p
 
 // mang ban dau trong
 
-const time: Date = new Date()
+// const time: Date = new Date()
 
 function reducer_Todo(state: Todo[], action: Action): Todo[] {
 

@@ -1,4 +1,4 @@
-import React from 'react'
+// import react from 'react'
 import { useState, useEffect } from 'react'
 import {ClockCircleOutlined, RedoOutlined} from '@ant-design/icons'
 
@@ -16,8 +16,8 @@ function Clock() {
 
     const formatTime = () => {
         let hours = time.getHours();
-        let minutes = time.getMinutes();
-        let seconds = time.getSeconds();
+        const minutes = time.getMinutes();
+        const seconds = time.getSeconds();
         let amPm = "AM";
 
         if (is12HourFormat) {
@@ -27,7 +27,7 @@ function Clock() {
 
         return `${hours.toString().padStart(2, "0")}:${minutes
             .toString()
-            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} ${is12HourFormat ? amPm : ""
+            .padStart(2, "0")}:${seconds.toString().padStart(2, "0")} ${is12HourFormat ? amPm : "--"
             }`;
     };
 
