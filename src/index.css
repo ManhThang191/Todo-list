@@ -146,6 +146,7 @@ button:focus-visible {
   margin: 10px;
   padding: 10px 30px;
   justify-content: space-between;
+  text-align: center;
   font-size: 25px;
   position: relative;
   /* z-index: 1; */
@@ -168,6 +169,7 @@ button:focus-visible {
   width: 90%;
   overflow: hidden;
   border-radius: 10px;
+  padding: 10px;
 }
 
 .todo_text{
@@ -175,9 +177,9 @@ button:focus-visible {
 }
 
 .btn_dele{
-  /* position: absolute;
+  position: absolute;
   right: -65px;
-  top: 15%; */
+  top: 15%;
   transform: scale(1.2);
 }
 
