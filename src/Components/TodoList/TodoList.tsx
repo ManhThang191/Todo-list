@@ -154,13 +154,20 @@ function TodoList() {
                             {editingID === todo.id ? (
                                 <>
                                     <div className='btn_Save_Edit'>
-                                        <Button onClick={() => handleSaveEdit(editingID)} className="btn_save">
+                                        <Button onClick={(e) => {
+                                            handleSaveEdit(editingID)
+                                            e.stopPropagation();
+                                        }} className="btn_save">
                                             <SaveOutlined />
                                         </Button>
 
                                         <Button
                                             className='btn_exit'
-                                            onClick={() => handleCancelEdit(editingID)}
+                                            onClick={(e) => {
+                                                handleCancelEdit()
+                                                e.stopPropagation();
+                                            }}
+
                                         >
                                             <CloseOutlined />
                                         </Button>
@@ -179,9 +186,10 @@ function TodoList() {
 
                             ) : (
                                 <Button
-                                    onClick={() => {
+                                    onClick={(e) => {
                                         setEditingID(todo.id);
                                         setEditText(todo.content);
+                                        e.stopPropagation();
                                     }}
                                     className="btn_edit"
                                 >
