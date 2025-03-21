@@ -97,7 +97,7 @@ function TodoList() {
     return (
         <div className="container">
             <div className="content">
-                <h1 className="title"> <CarryOutOutlined /> Todo List <Clock /> </h1>
+                <h1 className="title"> <CarryOutOutlined /> Todo List <Clock/> </h1>
 
                 <div className="input_content">
                     <Input
