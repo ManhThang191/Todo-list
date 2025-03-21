@@ -160,7 +160,7 @@ function TodoList() {
 
                                         <Button
                                             className='btn_exit'
-                                            onClick={() => handleCancelEdit(editingID)}
+                                            onClick={() => handleCancelEdit()}
                                         >
                                             <CloseOutlined />
                                         </Button>
