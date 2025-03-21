@@ -148,3 +148,56 @@
 .btn_save{
   background: #5bd252;
 }
+
+@media screen and (max-width: 480px) {
+  
+  .container {
+    /* height: 100vh; */
+    /* margin: 0; */
+  }
+
+  .content{
+    /* background: red; */
+  }
+
+  .input{
+    margin: 0px 40px 30px 10px;
+    padding: 10px;
+    min-width: 60%;
+  }
+
+  .list{
+    display: flex;
+  }
+  .list li{
+    /* background: #000; */
+    margin-left: -50px;
+    min-width: 90%;
+    font-size: 20px;
+    align-items: center;
+  }
+
+
+  .check_box{
+    /* background: #000; */
+    margin-left: -10px;
+  }
+  .btn_Save_Edit{
+    /* background: #000; */
+    margin: 0px -25px 0px 5px;
+    padding: 0;
+    /* margin: 0; */
+  }
+
+  .input_edit{
+    max-width: 60%;
+    margin-right: -15px;
+  }
+  .btn_save,
+  .btn_exit{
+    min-width: 40%;
+    margin: 0;
+    padding: 10px ;
+    
+  }
+}
