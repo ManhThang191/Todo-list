@@ -141,6 +141,7 @@ function TodoList() {
                                     className='input_edit'
                                     type="text"
                                     value={editText}
+                                    onClick={(e) => e.stopPropagation()}
                                     onChange={e => setEditText(e.target.value)}
                                     onKeyDown={e => e.key === 'Enter' && handleSaveEdit(todo.id)}
                                     autoFocus
@@ -157,7 +158,9 @@ function TodoList() {
                                         <Button onClick={(e) => {
                                             handleSaveEdit(editingID)
                                             e.stopPropagation();
-                                        }} className="btn_save">
+                                        }}
+                                            className="btn_save"
+                                        >
                                             <SaveOutlined />
                                         </Button>
 
@@ -167,7 +170,6 @@ function TodoList() {
                                                 handleCancelEdit()
                                                 e.stopPropagation();
                                             }}
-
                                         >
                                             <CloseOutlined />
                                         </Button>
