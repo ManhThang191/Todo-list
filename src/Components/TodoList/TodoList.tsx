@@ -2,7 +2,7 @@ import React from 'react'
 import { useReducer, useState } from 'react'
 // import reducer_Todo from '../UseReducer/UseReducer'
 import { Input, Button, Checkbox } from 'antd'
-import { CloseOutlined, CarryOutOutlined } from '@ant-design/icons'
+import { CloseOutlined, CarryOutOutlined, EditOutlined, SaveOutlined } from '@ant-design/icons'
 import "tailwindcss";
 // import Todo from '../Todos/Todo';
 import Clock from '../Clock/Clock';
@@ -14,7 +14,10 @@ type Todo = {
     complete: boolean
 }
 
-type Action = | { type: "ADD_todo"; payload: string } | { type: "TOGGLE_todo"; payload: number } | { type: "DELE_todo"; payload: number }
+type Action = | { type: "ADD_todo"; payload: string }
+    | { type: "TOGGLE_todo"; payload: number }
+    | { type: "DELE_todo"; payload: number }
+    | { type: "Edit_todo"; payload: { id: number; text: string } }
 
 
 // mang ban dau trong
@@ -40,7 +43,12 @@ function reducer_Todo(state: Todo[], action: Action): Todo[] {
             break;
         case "DELE_todo":
             newState = state.filter(todo => todo.id !== action.payload);
-            break
+            break;
+        case "Edit_todo":
+            newState = state.map(todo =>
+                todo.id === action.payload.id ? { ...todo, content: action.payload.text } : todo
+            );
+            break;
         default:
             return state;
     }
@@ -49,11 +57,16 @@ function reducer_Todo(state: Todo[], action: Action): Todo[] {
 }
 
 const InitialState: Todo[] = JSON.parse(localStorage.getItem("todos") || "[]");
+
 //const initialState: Todo[] = JSON.parse(localStorage.getItem("todos") || "[]");
 
 function TodoList() {
     const [state, dispatch] = useReducer(reducer_Todo, InitialState);
     const [text, setText] = useState("");
+
+    const [editingID, setEditingID] = useState<number | null>(null)
+    const [editText, setEditText] = useState("")
+
 
     const handleAddTodo = () => {
         if (text.trim()) {
@@ -61,7 +74,6 @@ function TodoList() {
             setText("");
         }
     }
-
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === "Enter" && text.trim() !== "") {
             dispatch({ type: "ADD_todo", payload: text });
@@ -70,6 +82,17 @@ function TodoList() {
         }
     };
 
+    const handleSaveEdit = (id: number) => {
+        if (editText.trim() !== "") {
+            dispatch({ type: 'Edit_todo', payload: { id, text: editText } });
+        }
+        setEditingID(null); // Thoát khỏi chế độ chỉnh sửa
+    };
+
+    const handleCancelEdit = () => {
+
+        setEditingID(null); // Đặt lại trạng thái chỉnh sửa về null
+    };
 
     return (
         <div className="container">
@@ -97,18 +120,83 @@ function TodoList() {
                     {state.map(todo => (
                         <li key={todo.id} className=""
 
-                        onClick={() => dispatch({ type: "TOGGLE_todo", payload: todo.id })}
+                            onClick={() => dispatch({ type: "TOGGLE_todo", payload: todo.id })}
 
                         >
                             <Checkbox className='check_box'
                                 checked={todo.complete}
                             >
                             </Checkbox>
-                            <div className='todo_content' >
+
+
+                            {/* <div className='todo_content' >
                                 <span className='todo_text'>
                                     {todo.content}
                                 </span>
-                            </div>
+                            </div> */}
+
+                            {editingID === todo.id ? (
+                                // Nếu đang chỉnh sửa, hiển thị ô nhập liệu
+                                <Input
+                                    className='input_edit'
+                                    type="text"
+                                    value={editText}
+                                    onChange={e => setEditText(e.target.value)}
+                                    onKeyDown={e => e.key === 'Enter' && handleSaveEdit(todo.id)}
+                                    autoFocus
+                                />
+                            ) : (
+                                // Nếu không chỉnh sửa, hiển thị nội dung công việc
+                                <span className="todo_text">{todo.content}</span>
+                            )}
+
+                            {/* Nút Edit / Save */}
+                            {editingID === todo.id ? (
+                                <>
+                                    <div className='btn_Save_Edit'>
+                                        <Button onClick={() => handleSaveEdit(editingID)} className="btn_save">
+                                            <SaveOutlined />
+                                        </Button>
+
+                                        <Button
+                                            className='btn_exit'
+                                            onClick={() => handleCancelEdit(editingID)}
+                                        >
+                                            <CloseOutlined />
+                                        </Button>
+
+                                    </div>
+                                    {/* <Button onClick={() => handleSaveEdit(editingID)} className="btn_save">
+                                        <SaveOutlined />
+                                    </Button>
+
+                                    <Button
+                                        onClick={() => handleCancelEdit(editingID)}
+                                    >
+                                        <CloseOutlined />
+                                    </Button> */}
+                                </>
+
+                            ) : (
+                                <Button
+                                    onClick={() => {
+                                        setEditingID(todo.id);
+                                        setEditText(todo.content);
+                                    }}
+                                    className="btn_edit"
+                                >
+                                    <EditOutlined />
+                                </Button>
+                            )}
+
+
+
+                            {/* <Button>
+                                <EditOutlined />
+                            </Button> */}
+
+
+
                             <Button onClick={() => dispatch({ type: "DELE_todo", payload: todo.id })}
                                 className="btn_dele"
                             >
